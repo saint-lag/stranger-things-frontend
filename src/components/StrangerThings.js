@@ -9,7 +9,10 @@ const {
   REACT_APP_HAWKINS_TIMEOUT,
   REACT_APP_UPSIDEDOWN_URL,
   REACT_APP_UPSIDEDOWN_TIMEOUT,
+  REACT_APP_DEVELOPMENT_MODE,
 } = process.env;
+
+const isItInDevelopmentMode = (developmentMode) => developmentMode === 'true';
 
 const getRealityClass = (hereIsTheUpsideDownWorld) => (
   hereIsTheUpsideDownWorld ? 'upside-down' : 'stranger-things'
@@ -113,15 +116,9 @@ class StrangerThings extends React.Component {
   }
 
   render() {
-    const {
-      hereIsTheUpsideDownWorld, characterName, characters, page,
-    } = this.state;
+    const { hereIsTheUpsideDownWorld, characterName, characters, page } = this.state;
     return (
-      <div
-        className={ `reality ${getRealityClass(
-          hereIsTheUpsideDownWorld,
-        )}` }
-      >
+      <div className={ `reality ${getRealityClass(hereIsTheUpsideDownWorld)}` }>
         <div className="content strangerfy">
           <div className="change-reality">
             <button type="button" onClick={ this.changeRealityClick }>
@@ -129,14 +126,18 @@ class StrangerThings extends React.Component {
               Mudar de Realidade
             </button>
           </div>
-
+          {isItInDevelopmentMode(REACT_APP_DEVELOPMENT_MODE) && (
+            <h3>Em desenvolvimento</h3>
+          )}
           <div>
             <input
               placeholder="Nome do Personagem"
               onChange={ this.handleInput }
               value={ characterName }
             />
-            <button type="button" onClick={ this.searchClick }>Pesquisar</button>
+            <button type="button" onClick={ this.searchClick }>
+              Pesquisar
+            </button>
           </div>
 
           <div>
@@ -150,8 +151,12 @@ class StrangerThings extends React.Component {
             </p>
           </div>
           <div>
-            <button type="button" onClick={ this.previousPage }>Anterior</button>
-            <button type="button" onClick={ this.nextPage }>Próximo</button>
+            <button type="button" onClick={ this.previousPage }>
+              Anterior
+            </button>
+            <button type="button" onClick={ this.nextPage }>
+              Próximo
+            </button>
           </div>
         </div>
       </div>
